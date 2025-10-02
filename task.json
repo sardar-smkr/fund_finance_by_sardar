@@ -1,0 +1,241 @@
+{
+  "env": "fund_finance",
+  "model_provider": "fireworks",
+  "model": "qwen3-coder-480b-a35b-instruct",
+  "num_trials": 3,
+  "temperature": 1,
+  "interface_num": 3,
+  "task": {
+    "user_id": "4",
+    "instruction": "You are Anthony Robinson (fund manager, anthonyrobinson734@outlook.com). You want to onboard a new investor, David Chen (email :david.chen@nextgenfunds.com , source_of_funds : corporate_capital ) accredited , 1000000.0 into the Global Balanced Fund in USD , ensuring all required approvals are validated and the subscription is recorded successfully.",
+    "actions": [
+                    {
+                    "arguments": {
+                        "action": "investor_onboarding",
+                        "requester_email": "anthonyrobinson734@outlook.com"
+                    },
+                    "name": "validate_approval",
+                    "output": {
+                        "approval_valid": true,
+                        "approved_by": "compliance_officer"
+                    }
+                    },
+                    {
+                    "arguments": {
+                        "accreditation_status": "accredited",
+                        "compliance_officer_approval": true,
+                        "contact_email": "david.chen@nextgenfunds.com",
+                        "legal_name": "David Chen",
+                        "source_of_funds": "shareholder_capital"
+                    },
+                    "name": "register_investor",
+                    "output": {
+                        "accreditation_status": "accredited",
+                        "address": null,
+                        "contact_email": "david.chen@nextgenfunds.com",
+                        "country": null,
+                        "created_at": "2025-10-01T00:00:00",
+                        "date_of_incorporation": null,
+                        "investor_id": "176",
+                        "name": "David Chen",
+                        "registration_number": null,
+                        "source_of_funds": "shareholder_capital",
+                        "status": "onboarded",
+                        "tax_id": null
+                    }
+                    },
+                    {
+                    "arguments": {
+                        "action": "create",
+                        "new_value": "David Chen",
+                        "reference_id": "176",
+                        "reference_type": "investor"
+                    },
+                    "name": "register_new_audit_trail",
+                    "output": {
+                        "action": "create",
+                        "audit_trail_id": "3501",
+                        "created_at": "2025-10-01T00:00:00",
+                        "field_name": null,
+                        "new_value": "David Chen",
+                        "old_value": null,
+                        "reference_id": "176",
+                        "reference_type": "investor"
+                    }
+                    },
+                    {
+                    "arguments": {
+                        "entity_type": "portfolios",
+                        "filters": {
+                        "investor_id": "176",
+                        "status": "active"
+                        }
+                    },
+                    "name": "find_portfolio_entities",
+                    "output": {
+                        "count": 0,
+                        "entity_type": "portfolios",
+                        "results": [],
+                        "success": true
+                    }
+                    },
+                    {
+                    "arguments": {
+                        "action": "create",
+                        "fund_data": {
+                        "base_currency": "USD",
+                        "compliance_officer_approval": true,
+                        "fund_manager_approval": true,
+                        "fund_type": "multi_asset_funds",
+                        "manager_id": "4",
+                        "name": "Global Balanced Fund",
+                        "status": "open"
+                        }
+                    },
+                    "name": "manipulate_fund",
+                    "output": {
+                        "action": "create",
+                        "fund_data": {
+                        "base_currency": "USD",
+                        "created_at": "2025-10-01T12:00:00",
+                        "fund_id": "101",
+                        "fund_type": "multi_asset_funds",
+                        "manager_id": "4",
+                        "name": "Global Balanced Fund",
+                        "size": null,
+                        "status": "open",
+                        "updated_at": "2025-10-01T12:00:00"
+                        },
+                        "fund_id": "101",
+                        "message": "Fund 101 created successfully with name 'Global Balanced Fund'",
+                        "success": true
+                    }
+                    },
+                    {
+                    "arguments": {
+                        "action": "create",
+                        "subscription_data": {
+                        "amount": 1000000,
+                        "compliance_officer_approval": true,
+                        "fund_id": "101",
+                        "fund_manager_approval": true,
+                        "investor_id": "176",
+                        "request_assigned_to": "4",
+                        "request_date": "2025-10-02",
+                        "status": "pending"
+                        }
+                    },
+                    "name": "manipulate_subscription",
+                    "output": {
+                        "action": "create",
+                        "message": "Subscription 2501 created successfully.",
+                        "subscription_data": {
+                        "amount": 1000000.0,
+                        "approval_date": null,
+                        "fund_id": "101",
+                        "investor_id": "176",
+                        "request_assigned_to": "4",
+                        "request_date": "2025-10-02",
+                        "status": "pending",
+                        "subscription_id": "2501",
+                        "updated_at": "2025-10-01T00:00:00"
+                        },
+                        "subscription_id": "2501",
+                        "success": true
+                    }
+                    }
+                ],
+    "outputs": ["176","2501","101"],
+    "edges": [
+                {
+                "from": "instruction",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "action, requester_email",
+                    "input": "action, requester_email"
+                }
+                },
+                {
+                "from": "validate_approval",
+                "to": "register_investor",
+                "connection": {
+                    "output": "approval_valid",
+                    "input": "compliance_officer_approval"
+                }
+                },
+                {
+                "from": "instruction",
+                "to": "register_investor",
+                "connection": {
+                    "output": "accreditation_status, contact_email, legal_name, source_of_funds",
+                    "input": "accreditation_status, contact_email, legal_name, source_of_funds"
+                }
+                },
+                {
+                "from": "register_investor",
+                "to": "register_new_audit_trail",
+                "connection": {
+                    "output": "name, investor_id",
+                    "input": "new_value, reference_id"
+                }
+                },
+                {
+                "from": "instruction",
+                "to": "register_new_audit_trail",
+                "connection": {
+                    "output": "action, reference_type",
+                    "input": "action, reference_type"
+                }
+                },
+                {
+                "from": "register_investor",
+                "to": "find_portfolio_entities",
+                "connection": {
+                    "output": "investor_id",
+                    "input": "filters.investor_id"
+                }
+                },
+                {
+                "from": "instruction",
+                "to": "find_portfolio_entities",
+                "connection": {
+                    "output": "entity_type, status",
+                    "input": "entity_type, filters.status"
+                }
+                },
+                {
+                "from": "instruction",
+                "to": "manipulate_fund",
+                "connection": {
+                    "output": "action, fund_name, fund_type, base_currency, status, manager_id, fund_manager_approval, compliance_officer_approval",
+                    "input": "action, fund_data.name, fund_data.fund_type, fund_data.base_currency, fund_data.status, fund_data.manager_id, fund_data.fund_manager_approval, fund_data.compliance_officer_approval"
+                }
+                },
+                {
+                "from": "register_investor",
+                "to": "manipulate_subscription",
+                "connection": {
+                    "output": "investor_id",
+                    "input": "subscription_data.investor_id"
+                }
+                },
+                {
+                "from": "manipulate_fund",
+                "to": "manipulate_subscription",
+                "connection": {
+                    "output": "fund_id",
+                    "input": "subscription_data.fund_id"
+                }
+                },
+                {
+                "from": "instruction",
+                "to": "manipulate_subscription",
+                "connection": {
+                    "output": "action, amount, status, request_assigned_to, request_date, fund_manager_approval, compliance_officer_approval",
+                    "input": "action, subscription_data.amount, subscription_data.status, subscription_data.request_assigned_to, subscription_data.request_date, subscription_data.fund_manager_approval, subscription_data.compliance_officer_approval"
+                }
+                }
+],
+    "num_edges":11
+  }
+}
