@@ -10,17 +10,48 @@
     "instruction": "You are Anthony Robinson (fund manager, anthonyrobinson734@outlook.com). You want to onboard a new investor, David Chen (email :david.chen@nextgenfunds.com , source_of_funds : corporate_capital ) accredited , 1000000.0 into the Global Balanced Fund in USD , ensuring all required approvals are validated and the subscription is recorded successfully.",
     "actions": [
                     {
+      
+                    "name": "find_user_entities",
+                    "arguments": {
+                        "entity_type": "users",
+                        "filters": {
+                        "email": "anthonyrobinson734@outlook.com"
+                        }
+                    },
+                    "output": {
+                        "count": 1,
+                        "entity_type": "users",
+                        "results": [
+                        {
+                            "created_at": "2024-10-10T04:15:12",
+                            "email": "anthonyrobinson734@outlook.com",
+                            "first_name": "Anthony",
+                            "last_name": "Robinson",
+                            "role": "fund_manager",
+                            "status": "active",
+                            "timezone": "America/Los_Angeles",
+                            "updated_at": "2025-05-31T23:28:28",
+                            "user_id": "4"
+                        }
+                        ],
+                        "success": true
+                    }
+                    },
+                    {
+                    
+                    "name": "validate_approval",
                     "arguments": {
                         "action": "investor_onboarding",
                         "requester_email": "anthonyrobinson734@outlook.com"
                     },
-                    "name": "validate_approval",
                     "output": {
                         "approval_valid": true,
                         "approved_by": "compliance_officer"
                     }
                     },
                     {
+                    
+                    "name": "register_investor",
                     "arguments": {
                         "accreditation_status": "accredited",
                         "compliance_officer_approval": true,
@@ -28,7 +59,6 @@
                         "legal_name": "David Chen",
                         "source_of_funds": "shareholder_capital"
                     },
-                    "name": "register_investor",
                     "output": {
                         "accreditation_status": "accredited",
                         "address": null,
@@ -45,13 +75,14 @@
                     }
                     },
                     {
+                    
+                    "name": "register_new_audit_trail",
                     "arguments": {
                         "action": "create",
                         "new_value": "David Chen",
                         "reference_id": "176",
                         "reference_type": "investor"
                     },
-                    "name": "register_new_audit_trail",
                     "output": {
                         "action": "create",
                         "audit_trail_id": "3501",
@@ -64,6 +95,8 @@
                     }
                     },
                     {
+                    
+                    "name": "find_portfolio_entities",
                     "arguments": {
                         "entity_type": "portfolios",
                         "filters": {
@@ -71,7 +104,6 @@
                         "status": "active"
                         }
                     },
-                    "name": "find_portfolio_entities",
                     "output": {
                         "count": 0,
                         "entity_type": "portfolios",
@@ -80,6 +112,8 @@
                     }
                     },
                     {
+                    
+                    "name": "manipulate_fund",
                     "arguments": {
                         "action": "create",
                         "fund_data": {
@@ -92,7 +126,6 @@
                         "status": "open"
                         }
                     },
-                    "name": "manipulate_fund",
                     "output": {
                         "action": "create",
                         "fund_data": {
@@ -112,6 +145,8 @@
                     }
                     },
                     {
+                    
+                    "name": "manipulate_subscription",
                     "arguments": {
                         "action": "create",
                         "subscription_data": {
@@ -125,7 +160,6 @@
                         "status": "pending"
                         }
                     },
-                    "name": "manipulate_subscription",
                     "output": {
                         "action": "create",
                         "message": "Subscription 2501 created successfully.",
@@ -145,13 +179,21 @@
                     }
                     }
                 ],
-    "outputs": ["176","2501","101"],
+    "outputs": ["4","176","2501","101"],
     "edges": [
                 {
                 "from": "instruction",
+                "to": "find_user_entities",
+                "connection": {
+                    "output": "action, role , user_id",
+                    "input": "action, requester_email"
+                }
+                },
+                {
+                "from": "find_user_entities",
                 "to": "validate_approval",
                 "connection": {
-                    "output": "action, requester_email",
+                    "output": "action, role , user_id,requester_email",
                     "input": "action, requester_email"
                 }
                 },
@@ -236,6 +278,6 @@
                 }
                 }
 ],
-    "num_edges":11
+    "num_edges":12
   }
 }
