@@ -1,0 +1,280 @@
+{
+  "env": "fund_finance",
+  "model_provider": "fireworks",
+  "model": "qwen3-coder-480b-a35b-instruct",
+  "num_trials": 3,
+  "temperature": 1,
+  "interface_num": 3,
+  "task": {
+    "user_id": "22",
+    "instruction": "You are Carl Gentry (finance officer, carl.gentry@investment.com). You want to create an invoice of 25000 USD linked to commitment CMT-15 with a due date of 2025-11-20, ensuring finance officer approval is validated and the invoice is recorded successfully.",
+    "actions": [
+                {
+                
+                "name": "find_user_entities",
+                "arguments": {
+                    "entity_type": "users",
+                    "filters": {
+                    "email": "carl.gentry@investment.com"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "users",
+                    "results": [
+                    {
+                        "created_at": "2025-01-14T05:14:51",
+                        "email": "carl.gentry@investment.com",
+                        "first_name": "Carl",
+                        "last_name": "Gentry",
+                        "role": "finance_officer",
+                        "status": "active",
+                        "timezone": "America/Los_Angeles",
+                        "updated_at": "2025-05-16T10:15:28",
+                        "user_id": "22"
+                    }
+                    ],
+                    "success": true
+                }
+                },
+                {
+                
+                "name": "validate_approval",
+                "arguments": {
+                    "action": "invoice_management",
+                    "requester_email": "carl.gentry@investment.com"
+                },
+                "output": {
+                    "approval_valid": true,
+                    "message": "Role 'finance_officer' is directly authorized for action 'invoice_management'"
+                }
+                },
+                {
+                
+                "name": "find_investment_flow_entities",
+                "arguments": {
+                    "entity_type": "commitments",
+                    "filters": {
+                    "commitment_id": "15",
+                    "status": "fulfilled"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "commitments",
+                    "results": [
+                    {
+                        "commitment_amount": 5275377.37,
+                        "commitment_date": "2024-04-29",
+                        "commitment_id": "15",
+                        "fund_id": "13",
+                        "investor_id": "161",
+                        "status": "fulfilled",
+                        "updated_at": "2025-03-16T02:14:47"
+                    }
+                    ],
+                    "success": true
+                }
+                },
+                {
+                
+                "name": "find_investor_entities",
+                "arguments": {
+                    "entity_type": "investors",
+                    "filters": {
+                    "investor_id": "5"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "investors",
+                    "results": [
+                    {
+                        "accreditation_status": "accredited",
+                        "address": "20047 Colton Plain Apt. 675, Matthewsberg, FM 54880",
+                        "contact_email": "holland8255@hotmail.com",
+                        "country": "Japan",
+                        "created_at": "2024-08-06T15:06:39",
+                        "date_of_incorporation": "2019-06-23",
+                        "investor_id": "5",
+                        "name": "Holland Ltd",
+                        "registration_number": 976547539,
+                        "source_of_funds": "dividend_income",
+                        "status": "onboarded",
+                        "tax_id": "979-64-0537"
+                    }
+                    ],
+                    "success": true
+                }
+                },
+                {
+                
+                "name": "find_fund_entities",
+                "arguments": {
+                    "entity_type": "funds",
+                    "filters": {
+                    "fund_id": "12"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "funds",
+                    "results": [
+                    {
+                        "created_at": "2024-05-29T01:29:18",
+                        "fund_id": "12",
+                        "fund_type": "hedge_funds",
+                        "manager_id": "12",
+                        "name": "Navarro, Marsh and Hurst Growth Fund",
+                        "size": 277126124.43,
+                        "status": "open",
+                        "updated_at": "2025-07-21T02:38:48"
+                    }
+                    ],
+                    "success": true
+                }
+                },
+                {
+                
+                "name": "manipulate_invoice",
+                "arguments": {
+                    "action": "create",
+                    "invoice_data": {
+                    "amount": 250000,
+                    "commitment_id": "15",
+                    "due_date": "2025-11-10",
+                    "finance_officer_approval": true,
+                    "invoice_date": "2024-05-03"
+                    }
+                },
+                "output": {
+                    "action": "create",
+                    "invoice_data": {
+                    "amount": 250000,
+                    "commitment_id": "15",
+                    "due_date": "2025-11-10",
+                    "invoice_date": "2024-05-03",
+                    "invoice_id": "1751",
+                    "status": "issued",
+                    "updated_at": "2025-10-01T12:00:00"
+                    },
+                    "invoice_id": "1751",
+                    "message": "Invoice 1751 created successfully for commitment 15 on 2024-05-03",
+                    "success": true
+                }
+                },
+                {
+                
+                "name": "register_new_audit_trail",
+                "arguments": {
+                    "action": "create",
+                    "reference_id": "1751",
+                    "reference_type": "invoice"
+                },
+                "output": {
+                    "action": "create",
+                    "audit_trail_id": "3501",
+                    "created_at": "2025-10-01T00:00:00",
+                    "field_name": null,
+                    "new_value": null,
+                    "old_value": null,
+                    "reference_id": "1751",
+                    "reference_type": "invoice"
+                }
+                }
+    ],
+    "outputs": ["22", "15", "5", "12","1751"],
+    "edges": [
+                {
+                "from": "instruction",
+                "to": "find_user_entities",
+                "connection": {
+                    "output": "email, first_name, last_name, role",
+                    "input": "filters.email, filters.first_name, filters.last_name, filters.role"
+                }
+                },
+                {
+                "from": "find_user_entities",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "results[0].email",
+                    "input": "email"
+                }
+                },
+                {
+                "from": "instruction",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "invoice_management",
+                    "input": "invoice_management"
+                }
+                },
+                {
+                "from": "instruction",
+                "to": "find_investment_flow_entities",
+                "connection": {
+                    "output": "commitment_id, status",
+                    "input": "filters.commitment_id, filters.status"
+                }
+                },
+                {
+                "from": "find_investment_flow_entities",
+                "to": "find_investor_entities",
+                "connection": {
+                    "output": "results[0].investor_id",
+                    "input": "filters.investor_id"
+                }
+                },
+                {
+                "from": "find_investment_flow_entities",
+                "to": "find_fund_entities",
+                "connection": {
+                    "output": "results[0].fund_id",
+                    "input": "filters.fund_id"
+                }
+                },
+                {
+                "from": "validate_approval",
+                "to": "manipulate_invoice",
+                "connection": {
+                    "output": "approval_valid",
+                    "input": "invoice_data.finance_officer_approval"
+                }
+                },
+                {
+                "from": "find_investment_flow_entities",
+                "to": "manipulate_invoice",
+                "connection": {
+                    "output": "results[0].commitment_id",
+                    "input": "invoice_data.commitment_id"
+                }
+                },
+                {
+                "from": "instruction",
+                "to": "manipulate_invoice",
+                "connection": {
+                    "output": "amount, invoice_date, due_date, action",
+                    "input": "invoice_data.amount, invoice_data.invoice_date, invoice_data.due_date, action"
+                }
+                },
+                {
+                "from": "manipulate_invoice",
+                "to": "register_new_audit_trail",
+                "connection": {
+                    "output": "invoice_id",
+                    "input": "reference_id"
+                }
+                },
+                {
+                "from": "instruction",
+                "to": "register_new_audit_trail",
+                "connection": {
+                    "output": "reference_id,reference_type",
+                    "input": "reference_id,reference_type"
+                }
+                }
+
+    ],
+    "num_edges":11
+  }
+}
