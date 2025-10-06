@@ -76,7 +76,7 @@
             }
           }
         ],
-        "instruction": "You are Anthony Robinson (fund manager, anthonyrobinson734@outlook.com). You want to onboard a new accredited investor, David Chen (email: david.chen@nextgenfunds.com, investing 1,000,000 USD of corporate capital) into the Global Balanced Fund, which is a multi-asset fund. The onboarding requires approval from compliance officer (compliance@fundauthority.com).",
+        "instruction": "You are Anthony Robinson, a fund manager at Corporate Capital. You intend to onboard a new investor, David Chen from NextGen Funds, by registering him under your management and subscribing USD 1,000,000 to the Global Balanced Fund (USD). Ensure all compliance and fund manager approvals are in place, and confirm that the investment is properly recorded in the system.",
         "outputs": [
           "4",
           "176",
