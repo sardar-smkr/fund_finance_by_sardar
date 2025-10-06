@@ -7,7 +7,7 @@
   "interface_num": 3,
   "task": {
     "user_id": "22",
-    "instruction": "You are Carl Gentry (finance officer, carl.gentry@investment.com). You want to create an invoice of 25000 USD linked to commitment CMT-15 with a due date of 2025-11-20, ensuring finance officer approval is validated and the invoice is recorded successfully.",
+    "instruction": "You are Carl Gentry, a finance officer at Investment Inc. You plan to issue an invoice of USD 25,000 tied to a corporate funding commitment, with a due date of November 20, 2025. Confirm that all necessary approvals are obtained and that the invoice is properly documented in the financial system.",
     "actions": [
                 {
                 
@@ -278,3 +278,4 @@
     "num_edges":11
   }
 }
+
