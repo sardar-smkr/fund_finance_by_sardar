@@ -74,7 +74,7 @@
             }
           }
         ],
-        "instruction": "You are Anthony Robinson ( anthonyrobinson734@outlook.com ) , a fund manager at Corporate Capital inc. You intend to onboard a new investor, David Chen , by registering him under your management and subscribing USD 1,000,000  Funds (USD). Onboarded proess by Compliance officer Craig Ramirez",
+        "instruction": "You are Anthony Robinson (anthonyrobinson734@outlook.com), a fund manager at Corporate Capital Inc. You intend to onboard a new investor, David Chen, by registering him under your management and subscribing USD 1,000,000 to the fund. The onboarding process is overseen by Compliance Officer Craig Ramirez.",
         "outputs": [
           "4",
           "176",
