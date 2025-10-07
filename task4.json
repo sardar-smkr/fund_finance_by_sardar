@@ -1,0 +1,243 @@
+{
+  "env": "fund_finance",
+  "model_provider": "fireworks",
+  "model": "qwen3-coder-480b-a35b-instruct",
+  "num_trials": 3,
+  "temperature": 1,
+  "interface_num": 3,
+  "task": {
+    "user_id": "48",
+    "instruction": "You are Brian Jones (brianjones803@investment.com), a Fund Manager at Corporate Capital Inc. You intend to execute a buy order of 8,000 shares of Washington-Martinez Inc (FUD5), valued at USD 1,200,000, within the Washington, Allen, and Gonzales Strategic Fund.",
+    "actions": [
+                {
+                "name": "find_user_entities",
+                "arguments": {
+                  "entity_type": "users",
+                  "filters": {
+                    "email": "brianjones803@investment.com",
+                    "role": "fund_manager"
+                  }
+                },
+                "output": {
+                  "count": 1,
+                  "entity_type": "users",
+                  "results": [
+                    {
+                      "created_at": "2022-10-04T22:24:09",
+                      "email": "brianjones803@investment.com",
+                      "first_name": "Brian",
+                      "last_name": "Jones",
+                      "role": "fund_manager",
+                      "status": "active",
+                      "timezone": "America/New_York",
+                      "updated_at": "2024-03-01T05:40:10",
+                      "user_id": "48"
+                    }
+                  ],
+                  "success": true
+                }
+              },
+              {
+                "name": "validate_approval",
+                "arguments": {
+                  "action": "trade_execution",
+                  "requester_email": "brianjones803@investment.com"
+                },
+                "output": {
+                  "approval_valid": true,
+                  "message": "Role 'fund_manager' is directly authorized for action 'trade_execution'"
+                }
+              },
+              {
+                "name": "find_fund_entities",
+                "arguments": {
+                  "entity_type": "funds",
+                  "filters": {
+                    "name": "Washington, Allen and Gonzales Strategic Fund",
+                    "status": "open"
+                  }
+                },
+                "output": {
+                  "count": 1,
+                  "entity_type": "funds",
+                  "results": [
+                    {
+                      "created_at": "2025-05-03T16:59:03",
+                      "fund_id": "5",
+                      "fund_type": "hedge_funds",
+                      "manager_id": "48",
+                      "name": "Washington, Allen and Gonzales Strategic Fund",
+                      "size": 237156983.89,
+                      "status": "open",
+                      "updated_at": "2025-06-26T13:20:55"
+                    }
+                  ],
+                  "success": true
+                }
+              },
+              {
+                "name": "find_instrument_entities",
+                "arguments": {
+                  "entity_type": "instruments",
+                  "filters": {
+                    "ticker": "FUD5",
+                    "status": "active"
+                  }
+                },
+                "output": {
+                  "count": 1,
+                  "entity_type": "instruments",
+                  "results": [
+                    {
+                      "instrument_id": "5",
+                      "instrument_type": "equities",
+                      "name": "Washington-Martinez Inc",
+                      "status": "active",
+                      "ticker": "FUD5"
+                    }
+                  ],
+                  "success": true
+                }
+              },
+              {
+                "name": "conduct_trade",
+                "arguments": {
+                  "fund_id": "5",
+                  "fund_manager_approval": true,
+                  "instrument_id": "5",
+                  "price": 150,
+                  "quantity": 8000,
+                  "side": "buy",
+                  "trade_date": "2025-10-01"
+                },
+                "output": {
+                  "message": "Trade 2501 executed successfully",
+                  "success": true,
+                  "trade_data": {
+                    "created_at": "2025-10-01T00:00:00",
+                    "fund_id": "5",
+                    "instrument_id": "5",
+                    "price": 150.0,
+                    "quantity": 8000.0,
+                    "side": "buy",
+                    "status": "executed",
+                    "trade_date": "2025-10-01",
+                    "trade_id": "2501"
+                  },
+                  "trade_id": "2501"
+                }
+              },
+              {
+                "name": "register_new_audit_trail",
+                "arguments": {
+                  "action": "create",
+                  "reference_id": "2501",
+                  "reference_type": "trade"
+                },
+                "output": {
+                  "action": "create",
+                  "audit_trail_id": "3501",
+                  "created_at": "2025-10-01T00:00:00",
+                  "field_name": null,
+                  "new_value": null,
+                  "old_value": null,
+                  "reference_id": "2501",
+                  "reference_type": "trade"
+                }
+              }
+    ],
+    "outputs": ["48", "5", "trade", "3501", "2501"],
+
+    "edges": [
+              {
+                "from": "instruction",
+                "to": "find_user_entities",
+                "connection": {
+                  "output": "entity_type, filters.email, filters.role",
+                  "input": "entity_type, filters.email, filters.role"
+                }
+              },
+              {
+                "from": "find_user_entities",
+                "to": "validate_approval",
+                "connection": {
+                  "output": "results[0].email",
+                  "input": "requester_email"
+                }
+              },
+              {
+                "from": "instruction",
+                "to": "validate_approval",
+                "connection": {
+                  "output": "action",
+                  "input": "action"
+                }
+              },
+              {
+                "from": "instruction",
+                "to": "find_fund_entities",
+                "connection": {
+                  "output": "entity_type, filters.name, filters.status",
+                  "input": "entity_type, filters.name, filters.status"
+                }
+              },
+              {
+                "from": "instruction",
+                "to": "find_instrument_entities",
+                "connection": {
+                  "output": "entity_type, filters.ticker, filters.status",
+                  "input": "entity_type, filters.ticker, filters.status"
+                }
+              },
+              {
+                "from": "find_fund_entities",
+                "to": "conduct_trade",
+                "connection": {
+                  "output": "results[0].fund_id",
+                  "input": "fund_id"
+                }
+              },
+              {
+                "from": "find_instrument_entities",
+                "to": "conduct_trade",
+                "connection": {
+                  "output": "results[0].instrument_id",
+                  "input": "instrument_id"
+                }
+              },
+              {
+                "from": "validate_approval",
+                "to": "conduct_trade",
+                "connection": {
+                  "output": "approval_valid",
+                  "input": "fund_manager_approval"
+                }
+              },
+              {
+                "from": "instruction",
+                "to": "conduct_trade",
+                "connection": {
+                  "output": "price, quantity, side, trade_date",
+                  "input": "price, quantity, side, trade_date"
+                }
+              },
+              {
+                "from": "conduct_trade",
+                "to": "register_new_audit_trail",
+                "connection": {
+                  "output": "trade_id",
+                  "input": "reference_id"
+                }
+              },
+              {
+                "from": "instruction",
+                "to": "register_new_audit_trail",
+                "connection": {
+                  "output": "action, reference_type",
+                  "input": "action, reference_type"
+                }
+              }
+  ],
+    "num_edges":11
+  }
+}
